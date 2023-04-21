@@ -28,7 +28,7 @@ class _BodyState extends State<_ScreenBody> {
 
   void _selectItem(NavigationItem navigationItem) {
     if (navigationItem == _current) {
-      _navigatorKeys[navigationItem]!.currentState?.popUntil((route) => route.isFirst);
+      _navigatorKeys[navigationItem]?.currentState?.popUntil((route) => route.isFirst);
     } else {
       setState(() => _current = navigationItem);
     }
@@ -54,10 +54,6 @@ class _BodyState extends State<_ScreenBody> {
         ),
       ),
       onWillPop: () async {
-        print("0 ::: ${_current}");
-        print("1 ::: ${_navigatorKeys[_current]}");
-        print("2 ::: ${_navigatorKeys[_current]?.currentState}");
-        print("3 ::: ${!await _navigatorKeys[_current]!.currentState!.maybePop()}");
         final bool isFirstRouteInCurrent = !await _navigatorKeys[_current]!.currentState!.maybePop();
         if (isFirstRouteInCurrent) {
           if (_current != NavigationItem.home) {
@@ -74,7 +70,7 @@ class _BodyState extends State<_ScreenBody> {
     return Offstage(
       offstage: _current != item,
       child: MenuNavigator(
-        navigatorKey: _navigatorKeys[NavigationItem],
+        navigatorKey: _navigatorKeys[item],
         item: item,
       ),
     );
