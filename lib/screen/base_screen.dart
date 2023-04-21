@@ -67,6 +67,7 @@ class _BodyState extends State<_ScreenBody> {
   }
 
   Widget _buildOffstageNavigator(NavigationItem item) {
+    // offstage : false 일 경우 tree에서 제거
     return Offstage(
       offstage: _current != item,
       child: MenuNavigator(

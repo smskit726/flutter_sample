@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:work_manager/res/strings.dart';
+import 'package:work_manager/res/styles.dart';
 import 'package:work_manager/widgets/common/defaultBody.dart';
 import 'package:work_manager/widgets/custom/appbar.dart';
 
@@ -9,7 +10,7 @@ class ContactScreen extends DefaultBody {
     return Scaffold(
       appBar: BaseAppBar(title: Strings.contact),
       body: SafeArea(
-        child: Text("Contact Screen"),
+        child: AppStyle.emptyWidget,
       ),
     );
   }

@@ -4,16 +4,19 @@ import 'package:work_manager/res/strings.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final List<Widget>? actions;
 
-  BaseAppBar({
+  const BaseAppBar({
     super.key,
     required this.title,
+    this.actions,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
+      actions: actions,
     );
   }
 
@@ -48,7 +51,7 @@ class BaseBottomNavigation extends StatelessWidget {
   }
 
   List<BottomNavigationBarItem> navigationItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: Strings.home),
+    BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: Strings.home),
     BottomNavigationBarItem(icon: Icon(Icons.people), label: Strings.contact),
     BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: Strings.board),
     BottomNavigationBarItem(icon: Icon(Icons.settings), label: Strings.settings),
