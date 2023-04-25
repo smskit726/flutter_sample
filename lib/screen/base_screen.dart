@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:work_manager/model/enums.dart';
+import 'package:work_manager/preference/preference_helper.dart';
+import 'package:work_manager/screen/main.dart';
 import 'package:work_manager/widgets/common/defaultBody.dart';
 import 'package:work_manager/widgets/custom/appbar.dart';
 import 'package:work_manager/widgets/custom/menu_navigator.dart';
@@ -30,6 +32,14 @@ class _BodyState extends State<_ScreenBody> {
     if (navigationItem == _current) {
       _navigatorKeys[navigationItem]?.currentState?.popUntil((route) => route.isFirst);
     } else {
+      // 설정에서 메뉴변경 되었을 경우
+      if (_current == NavigationItem.settings) {
+        AppState? appState = context.findAncestorStateOfType<AppState>();
+        appState?.setState(() {
+          appState.settings = PreferenceHelper.loadSettings();
+        });
+      }
+
       setState(() => _current = navigationItem);
     }
   }
@@ -54,6 +64,14 @@ class _BodyState extends State<_ScreenBody> {
         ),
       ),
       onWillPop: () async {
+        // 설정에서 willPop 되었을 경우
+        if (_current == NavigationItem.settings) {
+          AppState? appState = context.findAncestorStateOfType<AppState>();
+          appState?.setState(() {
+            appState.settings = PreferenceHelper.loadSettings();
+          });
+        }
+
         final bool isFirstRouteInCurrent = !await _navigatorKeys[_current]!.currentState!.maybePop();
         if (isFirstRouteInCurrent) {
           if (_current != NavigationItem.home) {

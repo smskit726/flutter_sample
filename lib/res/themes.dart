@@ -29,6 +29,11 @@ class Themes {
       color: Colors.grey[300],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
     ),
+    radioTheme: RadioThemeData(fillColor: MaterialStateColor.resolveWith((states) => Colors.blueAccent)),
+    sliderTheme: const SliderThemeData(
+        activeTrackColor: Colors.blueAccent,
+        showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+        thumbColor: Colors.blueAccent),
   );
 
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -58,6 +63,12 @@ class Themes {
       elevation: 0.5,
       color: Colors.grey[850],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
+    ),
+    radioTheme: RadioThemeData(fillColor: MaterialStateColor.resolveWith((states) => Colors.blueAccent)),
+    sliderTheme: const SliderThemeData(
+      activeTrackColor: Colors.blueAccent,
+      showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+      thumbColor: Colors.blueAccent,
     ),
   );
 }
