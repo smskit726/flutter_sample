@@ -12,6 +12,10 @@ class Strings {
   static String systemMode = "시스템설정";
   static String smaller = "작게";
   static String bigger = "크게";
+  static String yes = "예";
+  static String no = "아니오";
 
   static String descThemeSetting = "내 기기에서 App의 모습을 마음껏 바꿔보세요.";
+
+  static String qstnFromSettings = "저장하지 않고 메뉴를 나가시겠습니까?";
 }

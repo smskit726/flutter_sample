@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:work_manager/model/enums.dart';
 import 'package:work_manager/preference/preference_helper.dart';
+import 'package:work_manager/res/strings.dart';
 import 'package:work_manager/screen/main.dart';
 import 'package:work_manager/widgets/common/defaultBody.dart';
-import 'package:work_manager/widgets/custom/appbar.dart';
-import 'package:work_manager/widgets/custom/menu_navigator.dart';
 
 class BaseScreen extends DefaultBody {
   @override
@@ -15,83 +14,41 @@ class BaseScreen extends DefaultBody {
 
 class _ScreenBody extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _BodyState();
+  State<StatefulWidget> createState() => NavigationState();
 }
 
-class _BodyState extends State<_ScreenBody> {
-  NavigationItem _current = NavigationItem.home;
-
-  final _navigatorKeys = {
-    NavigationItem.home: GlobalKey<NavigatorState>(),
-    NavigationItem.contact: GlobalKey<NavigatorState>(),
-    NavigationItem.board: GlobalKey<NavigatorState>(),
-    NavigationItem.settings: GlobalKey<NavigatorState>(),
-  };
-
-  void _selectItem(NavigationItem navigationItem) {
-    if (navigationItem == _current) {
-      _navigatorKeys[navigationItem]?.currentState?.popUntil((route) => route.isFirst);
-    } else {
-      // 설정에서 메뉴변경 되었을 경우
-      if (_current == NavigationItem.settings) {
-        AppState? appState = context.findAncestorStateOfType<AppState>();
-        appState?.setState(() {
-          appState.settings = PreferenceHelper.loadSettings();
-        });
-      }
-
-      setState(() => _current = navigationItem);
-    }
-  }
+class NavigationState extends State<_ScreenBody> {
+  NavigationItem current = NavigationItem.home;
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        bottomNavigationBar: BaseBottomNavigation(
-          current: _current,
-          onSelect: _selectItem,
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              _buildOffstageNavigator(NavigationItem.home),
-              _buildOffstageNavigator(NavigationItem.contact),
-              _buildOffstageNavigator(NavigationItem.board),
-              _buildOffstageNavigator(NavigationItem.settings),
-            ],
-          ),
-        ),
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.home_outlined), label: Strings.home),
+          BottomNavigationBarItem(icon: const Icon(Icons.people), label: Strings.contact),
+          BottomNavigationBarItem(icon: const Icon(Icons.dashboard), label: Strings.board),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings), label: Strings.settings),
+        ],
+        currentIndex: current.index,
+        onTap: _handleOnTapNavigationItem,
       ),
-      onWillPop: () async {
-        // 설정에서 willPop 되었을 경우
-        if (_current == NavigationItem.settings) {
-          AppState? appState = context.findAncestorStateOfType<AppState>();
-          appState?.setState(() {
-            appState.settings = PreferenceHelper.loadSettings();
-          });
-        }
-
-        final bool isFirstRouteInCurrent = !await _navigatorKeys[_current]!.currentState!.maybePop();
-        if (isFirstRouteInCurrent) {
-          if (_current != NavigationItem.home) {
-            _selectItem(NavigationItem.home);
-            return false;
-          }
-        }
-        return isFirstRouteInCurrent;
-      },
+      body: screenMap[current],
     );
   }
 
-  Widget _buildOffstageNavigator(NavigationItem item) {
-    // offstage : false 일 경우 tree에서 제거
-    return Offstage(
-      offstage: _current != item,
-      child: MenuNavigator(
-        navigatorKey: _navigatorKeys[item],
-        item: item,
-      ),
-    );
+  // event handle
+  void _handleOnTapNavigationItem(int index) {
+    // 현재 설정메뉴일 경우 => 설정 다시 불러오기
+    if (current == NavigationItem.settings) {
+      AppState? appState = context.findAncestorStateOfType<AppState>();
+      appState?.setState(() {
+        appState.settings = PreferenceHelper.loadSettings();
+      });
+    }
+
+    setState(() {
+      current = NavigationItem.values[index];
+    });
   }
 }

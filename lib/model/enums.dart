@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:work_manager/res/strings.dart';
 import 'package:work_manager/screen/board_screen.dart';
 import 'package:work_manager/screen/contact_screen.dart';
 import 'package:work_manager/screen/home_screen.dart';
@@ -41,7 +40,7 @@ enum FontScale {
   }
 }
 
-Map<NavigationItem, Widget> screen = {
+final Map<NavigationItem, Widget> screenMap = {
   NavigationItem.home: HomeScreen(),
   NavigationItem.contact: ContactScreen(),
   NavigationItem.board: BoardScreen(),

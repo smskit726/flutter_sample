@@ -20,13 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class AppState extends State<MyApp> {
-  Settings settings = Settings();
-
-  @override
-  void initState() {
-    settings = PreferenceHelper.loadSettings();
-    super.initState();
-  }
+  Settings settings = PreferenceHelper.loadSettings();
 
   @override
   Widget build(BuildContext context) {

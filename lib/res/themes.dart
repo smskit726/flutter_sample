@@ -34,6 +34,9 @@ class Themes {
         activeTrackColor: Colors.blueAccent,
         showValueIndicator: ShowValueIndicator.onlyForDiscrete,
         thumbColor: Colors.blueAccent),
+    dialogTheme: const DialogTheme(
+      contentTextStyle: TextStyle(fontSize: 15, color: Colors.black),
+    ),
   );
 
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -69,6 +72,9 @@ class Themes {
       activeTrackColor: Colors.blueAccent,
       showValueIndicator: ShowValueIndicator.onlyForDiscrete,
       thumbColor: Colors.blueAccent,
+    ),
+    dialogTheme: const DialogTheme(
+      contentTextStyle: TextStyle(fontSize: 15, color: Colors.white),
     ),
   );
 }
